@@ -40,6 +40,32 @@ const Game = () => {
     }
   };
 
+  // Calculate the position of the board element
+  const getElementOffset = () => {
+    const rect = board.boardRef.getBoundingClientRect();
+    const doc = document.documentElement;
+
+    return {
+      x: rect.left + window.pageXOffset - doc.clientLeft,
+      y: rect.top + window.pageYOffset - doc.clientTop,
+    };
+  };
+
+  const handleClick = (e) => {
+    const elemOffset = getElementOffset();
+    const offsetX = e.clientX - elemOffset.x;
+    const offsetY = e.clientY - elemOffset.y;
+
+    const x = Math.floor(offsetX / CELL_SIZE);
+    const y = Math.floor(offsetY / CELL_SIZE);
+
+    // If the space on the grid is clicked...
+    if (x >= 0 && x <= cols && y >= 0 && y <= rows) {
+      board[y][x] = !board[y][x]; //toggles dead/alive
+    }
+    setState({ cells: makeCells() });
+  };
+
   return (
     <div>
       <div
@@ -49,6 +75,8 @@ const Game = () => {
           height: HEIGHT,
           backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`,
         }}
+        onClick={handleClick}
+        ref={(xy) => (board.boardRef = xy)} // saves the reference to the cell
       ></div>
     </div>
   );
