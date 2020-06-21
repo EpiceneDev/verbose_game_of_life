@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Grid from "./grid";
+import Cell from "./cell";
 import "./game.css";
 
 const CELL_SIZE = 20;
@@ -77,10 +78,14 @@ const Game = () => {
         }}
         onClick={handleClick}
         ref={(xy) => (board.boardRef = xy)} // saves the reference to the cell
-        x={x}
-        y={y}
+        // x={x}
+        // y={y}
         CELL_SIZE={CELL_SIZE}
-      ></div>
+      >
+        {state.cells.map((cell) => (
+          <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`} />
+        ))}
+      </div>
     </div>
   );
 };
