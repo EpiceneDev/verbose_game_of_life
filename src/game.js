@@ -77,6 +77,9 @@ const Game = () => {
         }}
         onClick={handleClick}
         ref={(xy) => (board.boardRef = xy)} // saves the reference to the cell
+        x={x}
+        y={y}
+        CELL_SIZE={CELL_SIZE}
       ></div>
     </div>
   );
