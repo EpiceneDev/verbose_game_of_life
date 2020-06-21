@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Grid from "./grid";
 import Cell from "./cell";
 import "./game.css";
 
@@ -28,7 +27,7 @@ const Game = () => {
 
   let board = makeEmptyBoard();
 
-  // Make cell identities
+  // Make cell identities in board
   const makeCells = () => {
     let cells = [];
 
@@ -39,6 +38,7 @@ const Game = () => {
         }
       }
     }
+    return cells;
   };
 
   // Calculate the position of the board element
@@ -66,7 +66,7 @@ const Game = () => {
     }
     setState({ cells: makeCells() });
   };
-
+  console.log(state);
   return (
     <div>
       <div
@@ -78,9 +78,7 @@ const Game = () => {
         }}
         onClick={handleClick}
         ref={(xy) => (board.boardRef = xy)} // saves the reference to the cell
-        // x={x}
-        // y={y}
-        CELL_SIZE={CELL_SIZE}
+        cell_size={CELL_SIZE}
       >
         {state.cells.map((cell) => (
           <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`} />
