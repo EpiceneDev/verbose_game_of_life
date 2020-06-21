@@ -10,7 +10,7 @@ const Game = () => {
   let rows = HEIGHT / CELL_SIZE;
   let cols = WIDTH / CELL_SIZE;
 
-  const [state, setState] = useState({
+  const [gameState, setGameState] = useState({
     cells: [],
   });
 
@@ -27,20 +27,6 @@ const Game = () => {
 
   let board = makeEmptyBoard();
 
-  // Make cell identities in board
-  const makeCells = () => {
-    let cells = [];
-
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        if (board[y][x]) {
-          cells.push({ x, y });
-        }
-      }
-    }
-    return cells;
-  };
-
   // Calculate the position of the board element
   const getElementOffset = () => {
     const rect = board.boardRef.getBoundingClientRect();
@@ -51,6 +37,22 @@ const Game = () => {
       y: rect.top + window.pageYOffset - doc.clientTop,
     };
   };
+
+  // Make cell identities in board
+  const makeCells = () => {
+    let cells = [];
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        if (board[y][x]) {
+          cells.push({ x, y });
+        }
+      }
+    }
+
+    return cells;
+  };
+
+  // console.log("CELLS: ", gameState.cells);
 
   const handleClick = (e) => {
     const elemOffset = getElementOffset();
@@ -64,26 +66,24 @@ const Game = () => {
     if (x >= 0 && x <= cols && y >= 0 && y <= rows) {
       board[y][x] = !board[y][x]; //toggles dead/alive
     }
-    setState({ cells: makeCells() });
+    setGameState({ cells: makeCells() });
   };
-  console.log(state);
+  console.log("Cells...", gameState.cells);
   return (
-    <div>
-      <div
-        className="board"
-        style={{
-          width: WIDTH,
-          height: HEIGHT,
-          backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`,
-        }}
-        onClick={handleClick}
-        ref={(xy) => (board.boardRef = xy)} // saves the reference to the cell
-        cell_size={CELL_SIZE}
-      >
-        {state.cells.map((cell) => (
-          <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`} />
-        ))}
-      </div>
+    <div
+      className="gameboard"
+      style={{
+        width: WIDTH,
+        height: HEIGHT,
+        backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`,
+      }}
+      onClick={handleClick}
+      ref={(xy) => (board.boardRef = xy)} // saves the reference to the cell
+      cell_size={CELL_SIZE}
+    >
+      {gameState.cells.flatMap((cell) => (
+        <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`} />
+      ))}
     </div>
   );
 };
