@@ -52,6 +52,13 @@ function Game() {
         speed: 500
     })
 
+    startStopButton = () => {
+        return gameState.isRunning ?
+        <button type='button' onClick={handleStop}>Stop</button>
+        <button type='button' onClick={handleStart}>Start</button>
+
+    }
+
     return (
 
     )
