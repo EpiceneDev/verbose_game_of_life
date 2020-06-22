@@ -1,5 +1,6 @@
+// THIS IS NOT SHOWING THE SELECTED BOX
+
 import React, { useState } from "react";
-import { ButtonToolbar, MenuItem, DropdownButton } from "react-bootstrap";
 
 import Cell from "./cell";
 import Buttons from "./buttons";
@@ -57,6 +58,7 @@ function Game() {
 
   // console.log("CELLS: ", gameState.cells);
 
+  //
   const handleClick = (e) => {
     const elemOffset = getElementOffset();
     const offsetX = e.clientX - elemOffset.x;
@@ -72,22 +74,31 @@ function Game() {
     setGameState({ cells: makeCells() });
   };
   console.log("Cells...", gameState.cells);
+
+  // const playButton = () => {
+  //   clearInterval(intervalId);
+  //   intervalId = setInterval(play, speed);
+  // };
+
   return (
-    <div
-      className="gameboard"
-      style={{
-        width: WIDTH,
-        height: HEIGHT,
-        backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`,
-      }}
-      onClick={handleClick}
-      ref={(xy) => (board.boardRef = xy)} // saves the reference to the cell
-      cell_size={CELL_SIZE}
-    >
-      {gameState.cells.flatMap((cell) => (
-        <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`} />
-      ))}
-    </div>
+    <>
+      <div
+        className="gameboard"
+        style={{
+          width: WIDTH,
+          height: HEIGHT,
+          backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`,
+        }}
+        onClick={handleClick}
+        ref={(xy) => (board.boardRef = xy)} // saves the reference to the cell
+        cell_size={CELL_SIZE}
+      >
+        {gameState.cells.flatMap((cell) => (
+          <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`} />
+        ))}
+      </div>
+      {/* <Buttons playButton={playButton} /> */}
+    </>
   );
 }
 

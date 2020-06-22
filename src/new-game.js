@@ -1,3 +1,5 @@
+//new-game grid size is to much but works
+
 import React, { useState, useCallback, useRef } from "react";
 import produce from "immer";
 import GenerateEmptyGrid from "./generateEmptyGrid";
@@ -75,8 +77,36 @@ function NewGame() {
 
   return (
     <>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${colsSize}, 20px)`,
+        }}
+      >
+        {grid.map((rows, i) =>
+          rows.map((col, j) => (
+            <div
+              className="gameboard"
+              key={`${i}-${j}`}
+              onClick={() => {
+                const newGrid = produce(grid, (gridCopy) => {
+                  gridCopy[i][j] = grid[i][j] ? 0 : 1;
+                });
+                setGrid(newGrid);
+              }}
+              style={{
+                width: 20,
+                height: 20,
+                backgroundColor: grid[i][j] ? "green" : undefined,
+                border: "solid 1px black",
+              }}
+            />
+          ))
+        )}
+      </div>
       <button
         onClick={() => {
+          //toggle if running or stopping, if false -> set to run and run it
           setRunning(!running);
           if (!running) {
             runningRef.current = true;
@@ -107,33 +137,6 @@ function NewGame() {
       >
         clear
       </button>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(${colsSize}, 20px)`,
-        }}
-      >
-        {grid.map((rows, i) =>
-          rows.map((col, j) => (
-            <div
-              className="gameboard"
-              key={`${i}-${j}`}
-              onClick={() => {
-                const newGrid = produce(grid, (gridCopy) => {
-                  gridCopy[i][j] = grid[i][j] ? 0 : 1;
-                });
-                setGrid(newGrid);
-              }}
-              style={{
-                width: 20,
-                height: 20,
-                backgroundColor: grid[i][j] ? "green" : undefined,
-                border: "solid 1px black",
-              }}
-            />
-          ))
-        )}
-      </div>
     </>
   );
 }

@@ -2,14 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-// import NewGame from "./new-game";
-import Game from "./game";
-// import Main from "./other-game";
+import NewGame from "./new-game";
+// import Game from "./game";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Game />
-    {/* <Main /> */}
+    <NewGame />
+    {/* <Game /> */}
   </React.StrictMode>,
   document.getElementById("root")
 );
