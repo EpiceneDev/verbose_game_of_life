@@ -46,7 +46,10 @@ const Slider = () => {}
 
 function Game() {
     const [gameState, setGameState] = useState({
-
+        boardStatus: newBoardStatus(),
+        generation: 0,
+        isRunning: false,
+        speed: 500
     })
 
     return (
