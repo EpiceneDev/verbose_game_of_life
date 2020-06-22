@@ -52,11 +52,25 @@ function Game() {
         speed: 500
     })
 
-    startStopButton = () => {
+    const startStopButton = () => {
         return gameState.isRunning ?
         <button type='button' onClick={handleStop}>Stop</button>
         <button type='button' onClick={handleStart}>Start</button>
 
+    }
+
+    const handleClearBoard = () => {
+        setGameState({
+            boardStatus: newBoardStatus(() => false),
+            generation: 0
+        })
+    }
+
+    const handleNewBoard = () => {
+        setGameState({
+            boardStatus: newBoardStatus(),
+            generation: 0
+        })
     }
 
     return (
