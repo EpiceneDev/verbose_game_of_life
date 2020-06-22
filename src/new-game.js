@@ -1,11 +1,13 @@
 import React, { useState, useCallback, useRef } from "react";
 import produce from "immer";
+import GenerateEmptyGrid from "./generateEmptyGrid";
+import { ButtonToolbar, MenuItem, DropdownButton } from "react-bootstrap";
 import "./game.css";
 
-const numRows = 50;
-const numCols = 50;
+const rowsSize = 50;
+const colsSize = 50;
 
-const operations = [
+const neighborLocations = [
   [0, 1],
   [0, -1],
   [1, -1],
@@ -16,18 +18,9 @@ const operations = [
   [-1, 0],
 ];
 
-const generateEmptyGrid = () => {
-  const rows = [];
-  for (let i = 0; i < numRows; i++) {
-    rows.push(Array.from(Array(numCols), () => 0));
-  }
-
-  return rows;
-};
-
-const NewGame = () => {
+function NewGame() {
   const [grid, setGrid] = useState(() => {
-    return generateEmptyGrid();
+    return GenerateEmptyGrid();
   });
 
   const [running, setRunning] = useState(false);
@@ -36,8 +29,8 @@ const NewGame = () => {
   runningRef.current = running;
 
   // useCallback returns a memoized callback
-  // that only changes if a dependency does
-  // and "useRef returns a mutable ref object whose .current property
+  // that only changes if a dependency does...
+  // "useRef returns a mutable ref object whose .current property
   // is initialized to the passed argument (initialValue).
   // The returned object will persist for the full lifetime of the component." -reactjs.org
   const runSimulation = useCallback(() => {
@@ -46,22 +39,30 @@ const NewGame = () => {
     }
 
     // produce(currentState, producer: (draftState) => void): nextState
-    setGrid((g) => {
-      return produce(g, (gridCopy) => {
-        for (let i = 0; i < numRows; i++) {
-          for (let j = 0; j < numCols; j++) {
+    setGrid((draft) => {
+      return produce(draft, (gridCopy) => {
+        for (let i = 0; i < rowsSize; i++) {
+          for (let j = 0; j < colsSize; j++) {
             let neighbors = 0;
-            operations.forEach(([x, y]) => {
-              const newI = i + x;
-              const newJ = j + y;
-              if (newI >= 0 && newI < numRows && newJ >= 0 && newJ < numCols) {
-                neighbors += g[newI][newJ];
+            neighborLocations.forEach(([x, y]) => {
+              const x1 = i + x;
+              const y1 = j + y;
+              if (
+                x1 >= 0 &&
+                x1 < colsSize &&
+                y1 >= 0 &&
+                y1 < rowsSize &&
+                draft[x1][y1]
+              ) {
+                neighbors += 1;
               }
+
+              return neighbors;
             });
 
             if (neighbors < 2 || neighbors > 3) {
               gridCopy[i][j] = 0;
-            } else if (g[i][j] === 0 && neighbors === 3) {
+            } else if (draft[i][j] === 0 && neighbors === 3) {
               gridCopy[i][j] = 1;
             }
           }
@@ -88,9 +89,9 @@ const NewGame = () => {
       <button
         onClick={() => {
           const rows = [];
-          for (let i = 0; i < numRows; i++) {
+          for (let i = 0; i < rowsSize; i++) {
             rows.push(
-              Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0))
+              Array.from(Array(colsSize), () => (Math.random() > 0.7 ? 1 : 0))
             );
           }
 
@@ -101,7 +102,7 @@ const NewGame = () => {
       </button>
       <button
         onClick={() => {
-          setGrid(generateEmptyGrid());
+          setGrid(GenerateEmptyGrid());
         }}
       >
         clear
@@ -109,7 +110,7 @@ const NewGame = () => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${numCols}, 20px)`,
+          gridTemplateColumns: `repeat(${colsSize}, 20px)`,
         }}
       >
         {grid.map((rows, i) =>
@@ -135,6 +136,6 @@ const NewGame = () => {
       </div>
     </>
   );
-};
+}
 
 export default NewGame;

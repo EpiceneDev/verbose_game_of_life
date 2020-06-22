@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { ButtonToolbar, MenuItem, DropdownButton } from "react-bootstrap";
+
 import Cell from "./cell";
+import Buttons from "./buttons";
 import "./game.css";
 
 const CELL_SIZE = 20;
 const WIDTH = 800;
 const HEIGHT = 600;
 
-const Game = () => {
+function Game() {
   let rows = HEIGHT / CELL_SIZE;
   let cols = WIDTH / CELL_SIZE;
 
@@ -86,6 +89,6 @@ const Game = () => {
       ))}
     </div>
   );
-};
+}
 
 export default Game;
