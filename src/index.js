@@ -1,12 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
 
-import Game from './game'
+import NewGame from "./new-game";
+// import Game from "./game";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Game />
+    <NewGame />
+    {/* <Game /> */}
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
