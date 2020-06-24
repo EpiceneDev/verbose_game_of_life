@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useRef } from "react";
 import produce from "immer";
 
-const numRows = 50;
-const numCols = 50;
+const numRows = 25;
+const numCols = 25;
 
 const operations = [
   [0, 1],
@@ -15,9 +15,19 @@ const operations = [
   [-1, 0],
 ];
 
+// Helper function
+const generateEmptyGrid = () => {
+    const rows = []
+    for (let i = 0; i < numRows; i++) {
+        rows.push(Array.from(Array(numCols), () => 0))
+    }
+    return rows;
+}
+
 function Game() {
+    // Put grid into state for access
     const [grid, setGrid] = useState({
-        return GenerateEmptyGrid();
+        return generateEmptyGrid();
     });
 
     // Set flags for running and a ref that persists without causing rerender
@@ -25,9 +35,15 @@ function Game() {
 
     const runRef = useRef(isRunning);
 
-    runRef.current = isRunning
+    runRef.current = isRunning;
 
+    const 
 
+    setGrid(() => {
+        returns produce(draft, (gridCopy) => {
+            
+        })
+    })
 }
 
 export default Game
