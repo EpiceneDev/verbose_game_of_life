@@ -85,6 +85,24 @@ function Game() {
 
     setTimeout(runSimulation, 100);
   }, []);
+
+  return (
+    <div className="board">
+      <button
+        onClick={() => {
+          setRunning(!running);
+          if (!running) {
+            runRef.current = true;
+            runSimulation();
+          }
+        }}
+      >
+        {isRunning ? start : stop}
+      </button>
+      <button>Populate</button>
+      <button>Clear</button>
+    </div>
+  );
 }
 
 export default Game;
