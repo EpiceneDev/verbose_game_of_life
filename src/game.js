@@ -17,7 +17,7 @@ const neighborLoc = [
   [-1, 0],
 ];
 
-// Helper function
+// Helper functions
 const generateEmptyGrid = () => {
   const rows = [];
   for (let i = 0; i < numRows; i++) {
@@ -86,21 +86,39 @@ function Game() {
     setTimeout(runSimulation, 100);
   }, []);
 
+  const handleRun = () => {
+    setRunning(!running);
+    if (!running) {
+      runRef.current = true;
+      runSimulation();
+    }
+  };
+
+  const handlePopulate = () => {
+    const rows = [];
+    for (let i = 0; i < numRows; i++) {
+      rows.push(
+        Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0))
+      );
+    }
+
+    setGrid(rows);
+  };
+
+  const handleClear = () => {
+    setGrid(generateEmptyGrid());
+  };
+
   return (
     <div className="board">
-      <button
-        onClick={() => {
-          setRunning(!running);
-          if (!running) {
-            runRef.current = true;
-            runSimulation();
-          }
-        }}
-      >
-        {isRunning ? start : stop}
-      </button>
-      <button>Populate</button>
-      <button>Clear</button>
+      <button onClick={handleRun}>{isRunning ? start : stop}</button>
+      <button onClick={handlePopulate}>Populate</button>
+      <button onClick={handleClear}>Clear</button>
+      <span>
+        {"FASTER "}
+        <slider speed={speed} onChange={speedChangeHandler} />
+        {" SLOWER"}
+      </span>
     </div>
   );
 }
