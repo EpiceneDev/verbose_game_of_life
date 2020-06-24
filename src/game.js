@@ -50,7 +50,7 @@ function Game() {
   // Set flags for running
   const [isRunning, setIsRunning] = useState(false);
 
-//   const [speed, setSpeed] = 
+  const [speed, setSpeed] = useState("50")
 
   // and a ref that persists without causing rerender.
   const runRef = useRef(isRunning);
@@ -124,8 +124,8 @@ function Game() {
     setGrid(generateEmptyGrid());
   };
 
-  const speedChangeHandler = () => {
-
+  const speedChangeHandler = (newSpeed) => {
+    setSpeed(newSpeed)
   }
 
   return (
