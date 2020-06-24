@@ -4,7 +4,7 @@ import produce from "immer";
 const numRows = 25;
 const numCols = 25;
 
-const speed = 100;
+// const speedStart = 100;
 
 const neighborLoc = [
   [0, 1],
@@ -26,6 +26,19 @@ const generateEmptyGrid = () => {
   return rows;
 };
 
+const Slider = (speed, onSpeedChange) => {
+    const handleChange = (e) => onSpeedChange(e.target.value)
+    return (
+        <input 
+            type="range"
+            min="50"
+            max="1500"
+            step="50"
+            value={speed}
+            onChange={handleChange}
+    )
+}
+
 function Game() {
   // The grid is the displayed/video buffer (running buffer)
   // First, create a grid and use it
@@ -36,6 +49,8 @@ function Game() {
 
   // Set flags for running
   const [isRunning, setIsRunning] = useState(false);
+
+//   const [speed, setSpeed] = 
 
   // and a ref that persists without causing rerender.
   const runRef = useRef(isRunning);
@@ -108,6 +123,10 @@ function Game() {
   const handleClear = () => {
     setGrid(generateEmptyGrid());
   };
+
+  const speedChangeHandler = () => {
+
+  }
 
   return (
     <div className="board">
