@@ -1,23 +1,24 @@
 $color: white;
-$background-color-body: rgb(33, 47, 60);
-$background-color-board: black;
+$background-color-body: rgb(63, 57, 57);
+$background-color-board: grey;
 $alive-color: white;
 $alive-hover-color: red;
-$border-color: darkGray;
+$border-color: rgb(72, 72, 100);
 $cell-size: 10px;
 
 body {
+  display: flex;
   color: $color;
   background-color: $background-color-body;
   text-align: center;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-table {
-  margin: 0 auto 20px auto;
-  border-collapse: collapse;
-  background-color: $background-color-board
-}
+// table {
+  // margin: 0 auto 20px auto;
+  // border-collapse: collapse;
+  // background-color: $background-color-board
+// }
 
 td {
   width: $cell-size;
@@ -56,7 +57,7 @@ button {
   }
 }
 
-.flexRow {
+.slider {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -69,9 +70,14 @@ button {
 }
 
 .upperControls {
-  width:350px;
+  width:500px;
 }
 
 .lowerControls {
   width:500px;
+}
+.slider {
+  display: flex;
+  align-items: center;
+
 }

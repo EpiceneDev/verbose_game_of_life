@@ -26,19 +26,18 @@ const generateEmptyGrid = () => {
   return rows;
 };
 
-const Slider = (speed, onSpeedChange) => {
-  const handleChange = (e) => onSpeedChange(e.target.value);
-  return (
-    <input
-      type="range"
-      min="50"
-      max="1500"
-      step="50"
-      value={speed}
-      onChange={handleChange}
-    />
-  );
-};
+//   const handleChange = (e) => handleSpeedChange(e.target.interval);
+//   return (
+//     <input
+//       type="range"
+//       min="50"
+//       max="1500"
+//       step="50"
+//       value={interval}
+//       onChange={handleSpeedChange}
+//     />
+//   );
+// };
 
 function Game() {
   // The grid is the displayed/video buffer (running buffer)
@@ -51,9 +50,10 @@ function Game() {
   // Set flags for running
   const [isRunning, setIsRunning] = useState(false);
 
-  const [speed, setSpeed] = useState("50");
+  const [interval, setInterval] = useState("1000");
 
-  const [generation, setGeneration] = useState("0");
+  // Counts double-buffer exchanges
+  const [generation, setGeneration] = useState(0);
 
   // and a ref that persists without causing rerender.
   const runRef = useRef(isRunning);
@@ -65,6 +65,8 @@ function Game() {
     if (!runRef.current) {
       return;
     }
+    // setGeneration(generation++);
+    // console.log("GEN", generation);
 
     // ⬇️ Examples from immer on Github
     // produce(currentState, producer: (draftState) => void): nextState
@@ -101,14 +103,17 @@ function Game() {
       });
     });
 
-    setTimeout(runSimulation, 100);
+    setTimeout((runSimulation, interval));
   }, []);
 
+  setTimeout(runSimulation, interval);
+
   const handleRun = () => {
+    let newGen = generation + 1;
     setIsRunning(!isRunning);
     if (!isRunning) {
       runRef.current = true;
-      setGeneration(generation + 1);
+      setGeneration(newGen);
       runSimulation();
     }
   };
@@ -117,6 +122,7 @@ function Game() {
     if (isRunning) {
       return;
     }
+    setGeneration(0);
     const rows = [];
     for (let i = 0; i < numRows; i++) {
       rows.push(
@@ -128,11 +134,27 @@ function Game() {
   };
 
   const handleClear = () => {
+    setGeneration(0);
     setGrid(generateEmptyGrid());
   };
 
-  const speedChangeHandler = (newSpeed) => {
-    setSpeed(newSpeed);
+  // const Slider = (interval, handleSpeedChange) => {
+  //   const handleChange = (e) => handleSpeedChange(e.target.interval);
+  //   return (
+  //     <input
+  //       type="range"
+  //       min="50"
+  //       max="1500"
+  //       step="50"
+  //       value={interval}
+  //       onChange={handleSpeedChange()}
+  //     />
+  //   );
+  // };
+
+  const handleSpeedChange = (newSpeed) => {
+    setInterval(newSpeed);
+    console.log(interval);
   };
 
   return (
@@ -142,21 +164,22 @@ function Game() {
           display: "grid",
           gridTemplateColumns: `repeat(${numCols}, 20px)`,
         }}
+        className="table"
       >
         {grid.map((rows, i) =>
-          rows.map((col, k) => (
+          rows.map((col, j) => (
             <div
-              key={`${i}-${k}`}
+              key={`${i}-${j}`}
               onClick={() => {
                 const newGrid = produce(grid, (gridCopy) => {
-                  gridCopy[i][k] = grid[i][k] ? 0 : 1;
+                  gridCopy[i][j] = grid[i][j] ? 0 : 1;
                 });
                 setGrid(newGrid);
               }}
               style={{
                 width: 20,
                 height: 20,
-                backgroundColor: grid[i][k] ? "pink" : undefined,
+                backgroundColor: grid[i][j] ? "white" : undefined,
                 border: "solid 1px black",
               }}
             />
@@ -168,12 +191,28 @@ function Game() {
         <button onClick={handlePopulate}>Populate</button>
         <button onClick={handleClear}>Clear</button>
         <div className="slider">
+          {
+            "Enter an interval (between 50 and 2000 ms) and press return. Then run the game!"
+          }
           <span>
-            {"FASTER "}
-            <slider speed={speed} onChange={speedChangeHandler} />
-            {" SLOWER"}
+            {"Buffer Loading interval: "}
+            <input
+              value={interval}
+              type="number"
+              min="50"
+              max="1000"
+              onChange={(e) => {
+                setInterval(e.target.value);
+                console.log(interval);
+              }}
+            />
+            {" ms between grid change"}
           </span>
         </div>
+        <div>{`Generation: ${generation}`}</div>
+        {/* <button className="glider-gun" onChange={makeGliderGun}>
+          Add a Glider
+        </button> */}
       </div>
     </>
   );
