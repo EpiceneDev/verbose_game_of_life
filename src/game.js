@@ -54,7 +54,7 @@ function Game() {
 
   // Counts double-buffer exchanges
   // const [generation, setGeneration] = useState(0);
-  const generation = 0;
+  let generation = 5;
 
   // and a ref that persists without causing rerender.
   const runRef = useRef(isRunning);
@@ -67,8 +67,9 @@ function Game() {
       return;
     }
 
-    generation += 1;
-    // console.log("GEN", generation);
+    generation++;
+    // setGeneration(generation + 1);
+    console.log("GEN", generation);
 
     // ⬇️ Examples from immer on Github
     // produce(currentState, producer: (draftState) => void): nextState
@@ -80,7 +81,6 @@ function Game() {
     // Currying takes multiple arity of function and
     //   calls again with less functions as a means of
     //   cellular autonama (CA)
-
     // setGrid will build the map, check for neighbors
     // and apply the rules to each cell for the next buffer
 
@@ -108,16 +108,17 @@ function Game() {
     });
 
     window.requestAnimationFrame(runSimulation);
-  }, []);
+  }, [generation]);
 
-  useEffect(() => {
-    generation = generation + 1;
-    console.log("HERE: ", generation);
-  }, runSimulation);
+  // useEffect(() => {
+  //   // generation = generation + 1;
+  //   setGeneration(generation + 1);
+  //   console.log("HERE: ", generation);
+  // }, runSimulation);
 
   const handleRun = () => {
     setIsRunning(!isRunning);
-    let generation = 0;
+    // generation = 0;
     if (!isRunning) {
       runRef.current = true;
       runSimulation();
@@ -140,7 +141,8 @@ function Game() {
   };
 
   const handleClear = () => {
-    let generation = 0;
+    generation = 0;
+    // setGeneration(0);
     setGrid(generateEmptyGrid());
   };
 
