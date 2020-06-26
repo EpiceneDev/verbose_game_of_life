@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import produce from "immer";
 
 const numRows = 25;
@@ -26,14 +26,14 @@ const generateEmptyGrid = () => {
   return rows;
 };
 
-//   const handleChange = (e) => handleSpeedChange(e.target.interval);
+//   const handleChange = (e) => handleSpeedChange(e.target.int);
 //   return (
 //     <input
 //       type="range"
 //       min="50"
 //       max="1500"
 //       step="50"
-//       value={interval}
+//       value={int}
 //       onChange={handleSpeedChange}
 //     />
 //   );
@@ -50,10 +50,11 @@ function Game() {
   // Set flags for running
   const [isRunning, setIsRunning] = useState(false);
 
-  const [interval, setInterval] = useState("1000");
+  const [int, setInt] = useState("1000");
 
   // Counts double-buffer exchanges
-  const [generation, setGeneration] = useState(0);
+  // const [generation, setGeneration] = useState(0);
+  const generation = 0;
 
   // and a ref that persists without causing rerender.
   const runRef = useRef(isRunning);
@@ -65,7 +66,8 @@ function Game() {
     if (!runRef.current) {
       return;
     }
-    // setGeneration(generation++);
+
+    generation += 1;
     // console.log("GEN", generation);
 
     // ⬇️ Examples from immer on Github
@@ -79,7 +81,9 @@ function Game() {
     //   calls again with less functions as a means of
     //   cellular autonama (CA)
 
-    // setGrid will build the map
+    // setGrid will build the map, check for neighbors
+    // and apply the rules to each cell for the next buffer
+
     setGrid((g) => {
       return produce(g, (gridCopy) => {
         for (let i = 0; i < numRows; i++) {
@@ -103,17 +107,19 @@ function Game() {
       });
     });
 
-    setTimeout((runSimulation, interval));
+    window.requestAnimationFrame(runSimulation);
   }, []);
 
-  setTimeout(runSimulation, interval);
+  useEffect(() => {
+    generation = generation + 1;
+    console.log("HERE: ", generation);
+  }, runSimulation);
 
   const handleRun = () => {
-    let newGen = generation + 1;
     setIsRunning(!isRunning);
+    let generation = 0;
     if (!isRunning) {
       runRef.current = true;
-      setGeneration(newGen);
       runSimulation();
     }
   };
@@ -122,7 +128,7 @@ function Game() {
     if (isRunning) {
       return;
     }
-    setGeneration(0);
+    // let generation = 0;
     const rows = [];
     for (let i = 0; i < numRows; i++) {
       rows.push(
@@ -134,27 +140,13 @@ function Game() {
   };
 
   const handleClear = () => {
-    setGeneration(0);
+    let generation = 0;
     setGrid(generateEmptyGrid());
   };
 
-  // const Slider = (interval, handleSpeedChange) => {
-  //   const handleChange = (e) => handleSpeedChange(e.target.interval);
-  //   return (
-  //     <input
-  //       type="range"
-  //       min="50"
-  //       max="1500"
-  //       step="50"
-  //       value={interval}
-  //       onChange={handleSpeedChange()}
-  //     />
-  //   );
-  // };
-
   const handleSpeedChange = (newSpeed) => {
-    setInterval(newSpeed);
-    console.log(interval);
+    setInt(newSpeed);
+    console.log(int);
   };
 
   return (
@@ -197,13 +189,13 @@ function Game() {
           <span>
             {"Buffer Loading interval: "}
             <input
-              value={interval}
+              value={int}
               type="number"
               min="50"
               max="1000"
               onChange={(e) => {
-                setInterval(e.target.value);
-                console.log(interval);
+                setInt(e.target.value);
+                console.log(int);
               }}
             />
             {" ms between grid change"}
