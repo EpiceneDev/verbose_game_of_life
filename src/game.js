@@ -190,6 +190,7 @@ class App extends Component {
 
   // Not called at the initial render, the componentDidUpdate
   // will be invoked immediately after updating occurs.
+  // This will update the interval for run time.
   componentDidUpdate(prevProps, prevState) {
     const { isGameRunning, speed } = this.state;
     const speedChanged = prevState.speed !== speed;
@@ -254,12 +255,15 @@ class App extends Component {
             Check what each neighbor is doing and apply the following rules:{" "}
           </h3>
           <p>
-            - Each ALIVE cell with FEWER THAN 2 neighbors DIES. <br />
-            - Each ALIVE cellwith 4 OR MORE neighbors DIES, as if it were
-            crowded out. <br />- Each ALIVE cell with TWO OR THREE neighbors
-            SURVIVES! Imagine that.
+            If an ALIVE cell has: <br />
+            FEWER THAN 2 neighbors, it DIES. <br />
+            4 OR MORE neighbors DIES, as if it were crowded out. <br />
+            TWO OR THREE neighbors SURVIVES! Imagine that.
           </p>
-          <p>Each DEAD cell with 2 OR 3 neighbors becomes ALIVE.</p>
+          <p>
+            If a DEAD cell has 2 OR 3 neighbors, it is 'born' and considered
+            alive.
+          </p>
         </div>
       </div>
     );
