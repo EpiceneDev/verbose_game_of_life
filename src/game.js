@@ -255,7 +255,6 @@ class App extends Component {
           </h3>
           <p>
             - Each ALIVE cell with FEWER THAN 2 neighbors DIES. <br />
-            - Each ALIVE cell with FEWER THAN 2 neighbors DIES. <br />
             - Each ALIVE cellwith 4 OR MORE neighbors DIES, as if it were
             crowded out. <br />- Each ALIVE cell with TWO OR THREE neighbors
             SURVIVES! Imagine that.
