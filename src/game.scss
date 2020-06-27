@@ -1,36 +1,39 @@
-$color: white;
-$background-color-body: rgb(63, 57, 57);
-$background-color-board: grey;
+$color: rgb(238, 232, 232);
+$background-color-body: rgb(33, 47, 60);
+// $background-color-board: blue;
 $alive-color: white;
-$alive-hover-color: red;
-$border-color: rgb(72, 72, 100);
-$cell-size: 10px;
+$alive-hover-color: pink;
+$border-color: darkGray;
+$cell-size: 5px;
 
 body {
-  display: flex;
-  color: $color;
-  background-color: $background-color-body;
+  width: 100vh;
+  color: black;
+  background-color: rgb(146, 135, 146); 
   text-align: center;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: Bookman, URW Bookman L, serif;
 }
 
-// table {
-  // margin: 0 auto 20px auto;
-  // border-collapse: collapse;
-  // background-color: $background-color-board
-// }
+table {
+  margin: 0 auto 20px auto; 
+  border-collapse: collapse;
+  background-color: black;
+}
 
 td {
   width: $cell-size;
-  height: $cell-size;
+  height: $cell-size; 
+  // Removing border makes a fluid grid
   border: 1px solid $border-color;
 }
 
 .alive {
   background-color: $alive-color;
 
+
   &:hover {
     background-color: $alive-hover-color;
+
   }
 }
 
@@ -38,6 +41,7 @@ td {
 
   &:hover {
     background-color: $border-color;
+
   }
 }
 
@@ -49,7 +53,7 @@ button {
   padding: 10px 15px;
   font-size: 18px;  
   color: $color;
-  background-color: $border-color;
+  background-color: rgb(173, 153, 156);
   cursor: pointer;
 
   &:hover {
@@ -57,7 +61,7 @@ button {
   }
 }
 
-.slider {
+.flexRow {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -70,14 +74,13 @@ button {
 }
 
 .upperControls {
-  width:500px;
+  width:350px;
 }
 
 .lowerControls {
   width:500px;
 }
-.slider {
-  display: flex;
-  align-items: center;
 
+input {
+  color: !important rgb(51, 45, 45);
 }

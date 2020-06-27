@@ -1,9 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import "./game.scss";
-import "./newgame.scss";
+import "./game.scss";
 
-// import Game from "./game";
-import Game from "./newgame";
+import Game from "./game";
 
 ReactDOM.render(<Game />, document.getElementById("root"));

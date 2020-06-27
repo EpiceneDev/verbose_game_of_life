@@ -1,39 +1,36 @@
 $color: white;
-$background-color-body: rgb(33, 47, 60);
-// $background-color-board: blue;
+$background-color-body: rgb(63, 57, 57);
+$background-color-board: grey;
 $alive-color: white;
 $alive-hover-color: red;
-$border-color: darkGray;
-$cell-size: 5px;
+$border-color: rgb(72, 72, 100);
+$cell-size: 10px;
 
 body {
-  width: 100vh;
-  color: rgb(41, 33, 158);
-  background-color: rgb(207, 188, 207); 
+  display: flex;
+  color: $color;
+  background-color: $background-color-body;
   text-align: center;
-  font-family: Comic Sans, Comic Sans MS, cursive;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-table {
-  margin: 0 auto 20px auto; 
-  border-collapse: collapse;
-  background-color: black;
-}
+// table {
+  // margin: 0 auto 20px auto;
+  // border-collapse: collapse;
+  // background-color: $background-color-board
+// }
 
 td {
   width: $cell-size;
-  height: $cell-size; 
-  // Removing border makes a fluid grid
+  height: $cell-size;
   border: 1px solid $border-color;
 }
 
 .alive {
   background-color: $alive-color;
 
-
   &:hover {
     background-color: $alive-hover-color;
-
   }
 }
 
@@ -41,7 +38,6 @@ td {
 
   &:hover {
     background-color: $border-color;
-
   }
 }
 
@@ -61,7 +57,7 @@ button {
   }
 }
 
-.flexRow {
+.slider {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -74,9 +70,14 @@ button {
 }
 
 .upperControls {
-  width:350px;
+  width:500px;
 }
 
 .lowerControls {
   width:500px;
+}
+.slider {
+  display: flex;
+  align-items: center;
+
 }
