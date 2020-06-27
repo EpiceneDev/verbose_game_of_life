@@ -1,0 +1,82 @@
+$color: white;
+$background-color-body: rgb(33, 47, 60);
+// $background-color-board: blue;
+$alive-color: white;
+$alive-hover-color: red;
+$border-color: darkGray;
+$cell-size: 5px;
+
+body {
+  width: 100vh;
+  color: rgb(41, 33, 158);
+  background-color: rgb(207, 188, 207); 
+  text-align: center;
+  font-family: Comic Sans, Comic Sans MS, cursive;
+}
+
+table {
+  margin: 0 auto 20px auto; 
+  border-collapse: collapse;
+  background-color: black;
+}
+
+td {
+  width: $cell-size;
+  height: $cell-size; 
+  // Removing border makes a fluid grid
+  border: 1px solid $border-color;
+}
+
+.alive {
+  background-color: $alive-color;
+
+
+  &:hover {
+    background-color: $alive-hover-color;
+
+  }
+}
+
+.dead {
+
+  &:hover {
+    background-color: $border-color;
+
+  }
+}
+
+button {
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  margin: 20px 10px;
+  padding: 10px 15px;
+  font-size: 18px;  
+  color: $color;
+  background-color: $border-color;
+  cursor: pointer;
+
+  &:hover {
+    color: $alive-hover-color;
+  }
+}
+
+.flexRow {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.upperControls,
+.lowerControls {
+  margin: auto;
+}
+
+.upperControls {
+  width:350px;
+}
+
+.lowerControls {
+  width:500px;
+}

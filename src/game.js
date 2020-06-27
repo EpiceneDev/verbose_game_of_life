@@ -4,8 +4,6 @@ import produce from "immer";
 const numRows = 25;
 const numCols = 25;
 
-// const speedStart = 100;
-
 const neighborLoc = [
   [0, 1],
   [0, -1],
@@ -50,26 +48,24 @@ function Game() {
   // Set flags for running
   const [isRunning, setIsRunning] = useState(false);
 
-  const [int, setInt] = useState("1000");
+  const [speed, setSpeed] = useState("1000");
 
   // Counts double-buffer exchanges
-  // const [generation, setGeneration] = useState(0);
-  let generation = 5;
-
   // and a ref that persists without causing rerender.
+  // Therefore, used as a flag.
   const runRef = useRef(isRunning);
 
   runRef.current = isRunning;
 
   // Rerender the the grid based on the runRef flag
-  const runSimulation = useCallback(() => {
+  const runSimulation = useCallback((int) => {
     if (!runRef.current) {
       return;
     }
 
-    generation++;
-    // setGeneration(generation + 1);
-    console.log("GEN", generation);
+    // generation++;
+    // nextGeneration = generation + 1;
+    // console.log("GEN", generation);
 
     // ⬇️ Examples from immer on Github
     // produce(currentState, producer: (draftState) => void): nextState
@@ -106,15 +102,17 @@ function Game() {
         }
       });
     });
+    console.log(speed);
+    setTimeout(runSimulation, speed);
 
-    window.requestAnimationFrame(runSimulation);
-  }, [generation]);
+    // window.requestAnimationFrame(runSimulation);
+  }, []);
 
   // useEffect(() => {
-  //   // generation = generation + 1;
   //   setGeneration(generation + 1);
+  //   // generation++;
   //   console.log("HERE: ", generation);
-  // }, runSimulation);
+  // }, setGrid);
 
   const handleRun = () => {
     setIsRunning(!isRunning);
@@ -129,7 +127,7 @@ function Game() {
     if (isRunning) {
       return;
     }
-    // let generation = 0;
+    // generation = 0;
     const rows = [];
     for (let i = 0; i < numRows; i++) {
       rows.push(
@@ -141,14 +139,14 @@ function Game() {
   };
 
   const handleClear = () => {
-    generation = 0;
+    // generation = 0;
     // setGeneration(0);
     setGrid(generateEmptyGrid());
   };
 
-  const handleSpeedChange = (newSpeed) => {
-    setInt(newSpeed);
-    console.log(int);
+  const handleSpeedChange = (e) => {
+    console.log("HEREWEEE: ", e.target.value);
+    setSpeed(e.target.value);
   };
 
   return (
@@ -191,19 +189,17 @@ function Game() {
           <span>
             {"Buffer Loading interval: "}
             <input
-              value={int}
+              value={speed}
               type="number"
               min="50"
-              max="1000"
-              onChange={(e) => {
-                setInt(e.target.value);
-                console.log(int);
-              }}
+              max="2000"
+              onChange={handleSpeedChange}
             />
             {" ms between grid change"}
           </span>
         </div>
-        <div>{`Generation: ${generation}`}</div>
+        <button onClick={handlePopulate}>Populate</button> // set to exact speed
+        {/* <div>{`Generation: ${generation}`}</div> */}
         {/* <button className="glider-gun" onChange={makeGliderGun}>
           Add a Glider
         </button> */}
